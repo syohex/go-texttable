@@ -22,14 +22,21 @@ func Test_calcMaxHeight(t *testing.T) {
 
 func Test_divideByNewLine(t *testing.T) {
 	input := "apple\nmelon\norange"
+func Test_borderString(t *testing.T) {
+	tbl := new(TextTable)
+	tbl.maxWidths = []int{4, 5, 3, 2}
 
-	got := divideByNewLine(input)
-	if len(got) != 3 {
-		t.Errorf("length of retval != 3(got=%d)", input, len(got))
+	expected := "+------+-------+-----+----+"
+
+	border := tbl.borderString()
+	if border != expected {
+		t.Errorf("got %s(Expected %s)", border, expected)
 	}
 
-	if !(got[0] == "apple" && got [1] == "melon" && got [2] == "orange") {
-		t.Errorf("expected apple, melon, orange(got %s, %s %s)",
-			got[0], got[1], got[2])
+	tbl.maxWidths = []int{0}
+	expected = "+--+"
+	border = tbl.borderString()
+	if border != expected {
+		t.Errorf("got %s(Expected %s)", border, expected)
 	}
 }

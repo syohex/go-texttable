@@ -55,6 +55,18 @@ func (t *TextTable) SetHeader(headers []string) error {
 
 func divideByNewLine(str string) []string {
 	return strings.Split(str, "\n")
+func (t *TextTable) borderString() string {
+	borderString := "+"
+	margin := 2
+
+	for _, width := range(t.maxWidths) {
+		for i := 0; i < width + margin; i++ {
+			borderString += "-"
+		}
+		borderString += "+"
+	}
+
+	return borderString
 }
 
 func adjustColumns(colLines [][]string, max int) [][]string {
