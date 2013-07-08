@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"errors"
 	"strings"
+	"github.com/mattn/go-runewidth"
 )
 
 type cellAlignment int
@@ -95,4 +96,8 @@ func calcMaxHeight(strs []string) int {
 	}
 
 	return max
+}
+
+func stringWidth(str string) int {
+	return runewidth.StringWidth(str)
 }
