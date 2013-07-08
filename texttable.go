@@ -126,3 +126,20 @@ func calcMaxHeight(strs []string) int {
 func stringWidth(str string) int {
 	return runewidth.StringWidth(str)
 }
+
+func formatCellUnit(cell *cellUnit, maxWidth int) string {
+	str := cell.content
+	width := stringWidth(cell.content)
+
+	padding := strings.Repeat(" ", maxWidth - width)
+
+	var ret string
+	if cell.alignment == ALIGN_RIGHT {
+		ret = padding + str
+	} else {
+		ret = str + padding
+	}
+
+	return " " + ret + " "
+}
+

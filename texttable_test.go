@@ -40,3 +40,32 @@ func Test_borderString(t *testing.T) {
 		t.Errorf("got %s(Expected %s)", border, expected)
 	}
 }
+
+func Test_formatCellUnit(t *testing.T) {
+	cell := cellUnit{content: "apple", alignment: ALIGN_RIGHT}
+
+	expected := " apple "
+	got := formatCellUnit(&cell, 5)
+	if got != expected {
+		t.Errorf("got '%s'(Expected '%s')", got, expected)
+	}
+
+	expected = "      apple "
+	got = formatCellUnit(&cell, 10)
+	if got != expected {
+		t.Errorf("got '%s'(Expected '%s')", got, expected)
+	}
+
+	cellLeft := cellUnit{content: "orange", alignment: ALIGN_LEFT}
+	expected = " orange "
+	got = formatCellUnit(&cellLeft, 6)
+	if got != expected {
+		t.Errorf("got '%s'(Expected '%s')", got, expected)
+	}
+
+	expected = " orange     "
+	got = formatCellUnit(&cellLeft, 10)
+	if got != expected {
+		t.Errorf("got '%s'(Expected '%s')", got, expected)
+	}
+}
