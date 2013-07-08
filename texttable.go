@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"errors"
 	"strings"
+	"strconv"
 	"github.com/mattn/go-runewidth"
 )
 
@@ -81,6 +82,19 @@ func (t *TextTable) divideRowsByLine(strs []string) []tableRower {
 //	adjusted := adjustColumns(strLines, maxHeight)
 
 	return nil
+
+func decideAlignment(str string) cellAlignment {
+	_, err := strconv.ParseInt(str, 10, 64)
+	if err == nil {
+		return ALIGN_RIGHT
+	}
+
+	_, err = strconv.ParseFloat(str, 64)
+	if err == nil {
+		return ALIGN_RIGHT
+	}
+
+	return ALIGN_LEFT
 }
 
 func calcMaxHeight(strs []string) int {
