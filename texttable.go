@@ -61,7 +61,6 @@ func adjustColumns(colLines [][]string, max int) [][]string {
 
 	for _, lines := range colLines {
 		padding := max - len(lines)
-		fmt.Printf("Add %d padding line\n", padding)
 		for i := 0; i < padding; i++ {
 			lines = append(lines, "")
 		}
