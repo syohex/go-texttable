@@ -35,15 +35,7 @@ type TextTable struct {
 	border bool
 }
 
-func New(headers []string) (*TextTable, error) {
-	table := new(TextTable)
-
-	err := table.SetHeader(headers)
-	if err != nil {
-		return nil, err
 	}
-
-	return table, nil
 }
 
 func (t *TextTable) SetHeader(headers []string) error {
@@ -53,8 +45,6 @@ func (t *TextTable) SetHeader(headers []string) error {
 	return nil
 }
 
-func divideByNewLine(str string) []string {
-	return strings.Split(str, "\n")
 func (t *TextTable) borderString() string {
 	borderString := "+"
 	margin := 2
@@ -67,20 +57,6 @@ func (t *TextTable) borderString() string {
 	}
 
 	return borderString
-}
-
-func adjustColumns(colLines [][]string, max int) [][]string {
-	adjustedCols := make([][]string, len(colLines))
-
-	for _, lines := range colLines {
-		padding := max - len(lines)
-		for i := 0; i < padding; i++ {
-			lines = append(lines, "")
-		}
-		adjustedCols = append(adjustedCols, lines)
-	}
-
-	return adjustedCols
 }
 
 func stringsToTableRow(strs []string) []*tableRow {
@@ -152,9 +128,6 @@ func stringWidth(str string) int {
 	return runewidth.StringWidth(str)
 }
 
-func formatCellUnit(cell *cellUnit, maxWidth int) string {
-	str := cell.content
-	width := stringWidth(cell.content)
 
 	padding := strings.Repeat(" ", maxWidth - width)
 
