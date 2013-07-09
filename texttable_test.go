@@ -4,6 +4,30 @@ import (
 	"testing"
 )
 
+//
+// Public Method
+//
+
+func TestDraw(t *testing.T) {
+	tbl := &TextTable{}
+
+	expected := "+------+----------+\n" +
+		"| 名前 | ふりがな |\n" +
+		"+------+----------+\n" +
+		"| foo  | ふう     |\n" +
+		"| hoge | ほげ     |\n" +
+		"+------+----------+"
+
+	tbl.SetHeader([]string{"名前", "ふりがな"})
+
+	tbl.AddRow([]string{"foo", "ふう"})
+	tbl.AddRow([]string{"hoge", "ほげ"})
+
+	got := tbl.Draw()
+	if got != expected {
+		t.Errorf("[got]\n%s\n\n[expected]\n%s\n", got, expected)
+	}
+}
 
 //
 // Private Function/Methods
