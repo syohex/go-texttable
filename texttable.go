@@ -83,17 +83,42 @@ func adjustColumns(colLines [][]string, max int) [][]string {
 	return adjustedCols
 }
 
-func (t *TextTable) divideRowsByLine(strs []string) []tableRower {
-//	maxHeight := calcMaxHeight(strs)
-//	strLines := make([][maxHeight]string, len(strs))
-//
-//	for i, str := range strs {
-//		strLines[i] = divideByNewLine(str)
-//	}
-//
-//	adjusted := adjustColumns(strLines, maxHeight)
+func stringsToTableRow(strs []string) []*tableRow {
+	maxHeight := calcMaxHeight(strs)
+	strLines := make([][]string, maxHeight)
 
-	return nil
+	for i := 0; i < maxHeight; i++ {
+		strLines[i] = make([]string, len(strs))
+	}
+
+	alignments := make([]cellAlignment, len(strs))
+	for i, str := range(strs) {
+		alignments[i] = decideAlignment(str)
+	}
+
+	for i, str := range strs {
+		divideds := strings.Split(str, "\n")
+		for j, line := range divideds {
+			strLines[j][i] = line
+		}
+	}
+
+	rows := make([]*tableRow, maxHeight)
+	for j := 0; j < maxHeight; j++ {
+		row := new(tableRow)
+		row.kind = ROW_CELLS
+		for i := 0; i < len(strs); i++ {
+			content := strLines[j][i]
+			unit := &cellUnit{content: content}
+			unit.alignment = alignments[i]
+			row.cellUnits = append(row.cellUnits, unit)
+		}
+
+		rows[j] = row;
+	}
+
+	return rows
+}
 
 func decideAlignment(str string) cellAlignment {
 	_, err := strconv.ParseInt(str, 10, 64)

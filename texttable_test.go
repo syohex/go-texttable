@@ -22,6 +22,24 @@ func Test_calcMaxHeight(t *testing.T) {
 
 func Test_divideByNewLine(t *testing.T) {
 	input := "apple\nmelon\norange"
+func Test_stringsToTableRow(t *testing.T) {
+	input := []string{
+		"apple", "orange\nmelon\ngrape\nnuts", "peach\nbanana",
+	}
+
+	tableRows := stringsToTableRow(input)
+	if len(tableRows) != 4 {
+		t.Errorf("returned table height=%d(Expected 4)", len(tableRows))
+	}
+
+	for i, row := range(tableRows) {
+		if len(row.cellUnits) != len(input) {
+			t.Errorf("width of tableRows[%d]=%d(Expected %d)",
+				i, len(row.cellUnits), len(input))
+		}
+	}
+}
+
 func Test_borderString(t *testing.T) {
 	tbl := new(TextTable)
 	tbl.maxWidths = []int{4, 5, 3, 2}
