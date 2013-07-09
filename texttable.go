@@ -2,46 +2,48 @@ package texttable
 
 import (
 	"errors"
-	"strings"
-	"strconv"
 	"github.com/mattn/go-runewidth"
 	"regexp"
+	"strconv"
+	"strings"
 )
 
 type cellAlignment int
+
 const (
 	ALIGN_LEFT cellAlignment = iota
 	ALIGN_RIGHT
 )
 
 type rowType int
+
 const (
 	ROW_LINE rowType = iota
 	ROW_CELLS
 )
 
 type cellUnit struct {
-	content string
+	content   string
 	alignment cellAlignment
 }
 
 type tableRow struct {
 	cellUnits []*cellUnit
-	kind rowType
+	kind      rowType
 }
 
-type tableLine struct {}
+type tableLine struct{}
 
 type TextTable struct {
-	header []*tableRow
-	rows   []*tableRow
-	width  int
+	header    []*tableRow
+	rows      []*tableRow
+	width     int
 	maxWidths []int
 }
 
 func (t *TextTable) updateColumnWidth(rows []*tableRow) {
-	for _, row := range(rows) {
-		for i, unit := range(row.cellUnits) {
+	for _, row := range rows {
+		for i, unit := range row.cellUnits {
 			width := stringWidth(unit.content)
 			if t.maxWidths[i] < width {
 				t.maxWidths[i] = width
@@ -94,8 +96,8 @@ func (t *TextTable) borderString() string {
 	borderString := "+"
 	margin := 2
 
-	for _, width := range(t.maxWidths) {
-		for i := 0; i < width + margin; i++ {
+	for _, width := range t.maxWidths {
+		for i := 0; i < width+margin; i++ {
 			borderString += "-"
 		}
 		borderString += "+"
@@ -113,7 +115,7 @@ func stringsToTableRow(strs []string) []*tableRow {
 	}
 
 	alignments := make([]cellAlignment, len(strs))
-	for i, str := range(strs) {
+	for i, str := range strs {
 		alignments[i] = decideAlignment(str)
 	}
 
@@ -135,7 +137,7 @@ func stringsToTableRow(strs []string) []*tableRow {
 			row.cellUnits = append(row.cellUnits, unit)
 		}
 
-		rows[j] = row;
+		rows[j] = row
 	}
 
 	return rows
@@ -191,7 +193,7 @@ func stringWidth(str string) int {
 }
 
 func (t *TextTable) Draw() string {
-	drawedRows := make([]string, len(t.header) + len(t.rows) + 3)
+	drawedRows := make([]string, len(t.header)+len(t.rows)+3)
 	index := 0
 
 	border := t.borderString()
@@ -200,7 +202,7 @@ func (t *TextTable) Draw() string {
 	drawedRows[index] = border
 	index++
 
-	for _, row := range(t.header) {
+	for _, row := range t.header {
 		drawedRows[index] = t.generateRowString(row)
 		index++
 	}
@@ -208,7 +210,7 @@ func (t *TextTable) Draw() string {
 	drawedRows[index] = border
 	index++
 
-	for _, row := range(t.rows) {
+	for _, row := range t.rows {
 		var rowStr string
 		if row.kind == ROW_CELLS {
 			rowStr = t.generateRowString(row)
@@ -232,7 +234,7 @@ func formatCellUnit(unit *cellUnit, maxWidth int) string {
 	str := unit.content
 	width := stringWidth(unit.content)
 
-	padding := strings.Repeat(" ", maxWidth - width)
+	padding := strings.Repeat(" ", maxWidth-width)
 
 	var ret string
 	if unit.alignment == ALIGN_RIGHT {
@@ -248,7 +250,7 @@ func (t *TextTable) generateRowString(row *tableRow) string {
 	separator := "|"
 
 	str := separator
-	for i, unit := range(row.cellUnits) {
+	for i, unit := range row.cellUnits {
 		str += formatCellUnit(unit, t.maxWidths[i])
 		str += separator
 	}
