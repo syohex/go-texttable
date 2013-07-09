@@ -62,7 +62,7 @@ func Test_stringsToTableRow(t *testing.T) {
 		t.Errorf("returned table height=%d(Expected 4)", len(tableRows))
 	}
 
-	for i, row := range(tableRows) {
+	for i, row := range tableRows {
 		if len(row.cellUnits) != len(input) {
 			t.Errorf("width of tableRows[%d]=%d(Expected %d)",
 				i, len(row.cellUnits), len(input))
@@ -126,7 +126,7 @@ func Test_generateRowString(t *testing.T) {
 		&cellUnit{content: "melon", alignment: ALIGN_RIGHT},
 	}
 
-	row := tableRow{ cellUnits: cells, kind: ROW_CELLS,}
+	row := tableRow{cellUnits: cells, kind: ROW_CELLS}
 	got := tbl.generateRowString(&row)
 
 	expected := "|    apple | melon |"
