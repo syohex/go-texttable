@@ -20,8 +20,33 @@ func Test_calcMaxHeight(t *testing.T) {
 	}
 }
 
-func Test_divideByNewLine(t *testing.T) {
-	input := "apple\nmelon\norange"
+func Test_decideAlignment(t *testing.T) {
+	got := decideAlignment("102948")
+	if got != ALIGN_RIGHT {
+		t.Errorf("decimal string of integer alighment is 'right'")
+	}
+
+	got = decideAlignment("01234")
+	if got != ALIGN_RIGHT {
+		t.Errorf("octal string of integer alighment is 'right'")
+	}
+
+	got = decideAlignment("0xaabbccdd")
+	if got != ALIGN_RIGHT {
+		t.Errorf("hex string of integer alighment is 'right'")
+	}
+
+	got = decideAlignment("1.245")
+	if got != ALIGN_RIGHT {
+		t.Errorf("string of float alighment is 'right'")
+	}
+
+	got = decideAlignment("foo")
+	if got != ALIGN_LEFT {
+		t.Errorf("string  alighment is 'left'")
+	}
+}
+
 func Test_stringsToTableRow(t *testing.T) {
 	input := []string{
 		"apple", "orange\nmelon\ngrape\nnuts", "peach\nbanana",

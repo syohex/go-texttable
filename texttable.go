@@ -6,6 +6,7 @@ import (
 	"strings"
 	"strconv"
 	"github.com/mattn/go-runewidth"
+	"regexp"
 )
 
 type cellAlignment int
@@ -96,10 +97,20 @@ func stringsToTableRow(strs []string) []*tableRow {
 	return rows
 }
 
+var hexRegexp = regexp.MustCompile("^0x")
+
 func decideAlignment(str string) cellAlignment {
 	_, err := strconv.ParseInt(str, 10, 64)
 	if err == nil {
 		return ALIGN_RIGHT
+	}
+
+	if hexRegexp.MatchString(str) {
+		tmp := str[2:]
+		_, err := strconv.ParseInt(tmp, 16, 64)
+		if err == nil {
+			return ALIGN_RIGHT
+		}
 	}
 
 	_, err = strconv.ParseFloat(str, 64)
