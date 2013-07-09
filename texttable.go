@@ -1,7 +1,6 @@
 package texttable
 
 import (
-	"fmt"
 	"errors"
 	"strings"
 	"strconv"
@@ -10,32 +9,44 @@ import (
 )
 
 type cellAlignment int
-
 const (
 	ALIGN_LEFT cellAlignment = iota
 	ALIGN_RIGHT
 )
 
-type tableCell struct {
+type rowType int
+const (
+	ROW_LINE rowType = iota
+	ROW_CELLS
+)
+
+type cellUnit struct {
 	content string
 	alignment cellAlignment
 }
 
-type tableRower interface{}
-
 type tableRow struct {
-	cells []tableCell
+	cellUnits []*cellUnit
+	kind rowType
 }
 
 type tableLine struct {}
 
 type TextTable struct {
-	header []tableRow
-	rows   []tableRower // tableRow or tableLine
+	header []*tableRow
+	rows   []*tableRow
 	width  int
-	border bool
+	maxWidths []int
 }
 
+func (t *TextTable) updateColumnWidth(rows []*tableRow) {
+	for _, row := range(rows) {
+		for i, unit := range(row.cellUnits) {
+			width := stringWidth(unit.content)
+			if t.maxWidths[i] < width {
+				t.maxWidths[i] = width
+			}
+		}
 	}
 }
 
@@ -43,6 +54,39 @@ func (t *TextTable) SetHeader(headers []string) error {
 	if len(headers) == 0 {
 		return errors.New("No header elements")
 	}
+
+	columnSize := len(headers)
+
+	t.width = columnSize
+	t.maxWidths = make([]int, columnSize)
+
+	rows := stringsToTableRow(headers)
+	t.updateColumnWidth(rows)
+
+	t.header = rows
+
+	return nil
+}
+
+func (t *TextTable) AddRow(strs []string) error {
+	if len(strs) > t.width {
+		return errors.New("row width should be less than header width")
+	}
+
+	padded := make([]string, t.width)
+	copy(padded, strs)
+	rows := stringsToTableRow(padded)
+	t.rows = append(t.rows, rows...)
+
+	t.updateColumnWidth(rows)
+
+	return nil
+}
+
+func (t *TextTable) AddRowLine() error {
+	rowLine := &tableRow{kind: ROW_LINE}
+	t.rows = append(t.rows, rowLine)
+
 	return nil
 }
 
@@ -140,10 +184,14 @@ func stringWidth(str string) int {
 }
 
 
+func formatCellUnit(unit *cellUnit, maxWidth int) string {
+	str := unit.content
+	width := stringWidth(unit.content)
+
 	padding := strings.Repeat(" ", maxWidth - width)
 
 	var ret string
-	if cell.alignment == ALIGN_RIGHT {
+	if unit.alignment == ALIGN_RIGHT {
 		ret = padding + str
 	} else {
 		ret = str + padding
