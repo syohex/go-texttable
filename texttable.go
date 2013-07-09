@@ -144,7 +144,14 @@ func stringsToTableRow(strs []string) []*tableRow {
 var hexRegexp = regexp.MustCompile("^0x")
 
 func decideAlignment(str string) cellAlignment {
+	// decimal/octal number
 	_, err := strconv.ParseInt(str, 10, 64)
+	if err == nil {
+		return ALIGN_RIGHT
+	}
+
+	// hex number
+	_, err = strconv.ParseInt(str, 16, 64)
 	if err == nil {
 		return ALIGN_RIGHT
 	}
