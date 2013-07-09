@@ -69,3 +69,20 @@ func Test_formatCellUnit(t *testing.T) {
 		t.Errorf("got '%s'(Expected '%s')", got, expected)
 	}
 }
+
+func Test_generateRowString(t *testing.T) {
+	tbl := TextTable{}
+	tbl.maxWidths = []int{8, 5}
+	cells := []*cellUnit{
+		&cellUnit{content: "apple", alignment: ALIGN_RIGHT},
+		&cellUnit{content: "melon", alignment: ALIGN_RIGHT},
+	}
+
+	row := tableRow{ cellUnits: cells, kind: ROW_CELLS,}
+	got := tbl.generateRowString(&row)
+
+	expected := "|    apple | melon |"
+	if got != expected {
+		t.Errorf("got '%s'(Expected '%s')", got, expected)
+	}
+}

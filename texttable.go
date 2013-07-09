@@ -143,3 +143,14 @@ func formatCellUnit(cell *cellUnit, maxWidth int) string {
 	return " " + ret + " "
 }
 
+func (t *TextTable) generateRowString(row *tableRow) string {
+	separator := "|"
+
+	str := separator
+	for i, unit := range(row.cellUnits) {
+		str += formatCellUnit(unit, t.maxWidths[i])
+		str += separator
+	}
+
+	return str
+}
