@@ -183,6 +183,43 @@ func stringWidth(str string) int {
 	return runewidth.StringWidth(str)
 }
 
+func (t *TextTable) Draw() string {
+	drawedRows := make([]string, len(t.header) + len(t.rows) + 3)
+	index := 0
+
+	border := t.borderString()
+
+	// top line
+	drawedRows[index] = border
+	index++
+
+	for _, row := range(t.header) {
+		drawedRows[index] = t.generateRowString(row)
+		index++
+	}
+
+	drawedRows[index] = border
+	index++
+
+	for _, row := range(t.rows) {
+		var rowStr string
+		if row.kind == ROW_CELLS {
+			rowStr = t.generateRowString(row)
+		} else {
+			rowStr = border
+		}
+		drawedRows[index] = rowStr
+		index++
+	}
+
+	// bottom line
+	if len(t.rows) != 0 {
+		drawedRows[index] = border
+		index++
+	}
+
+	return strings.Join(drawedRows[:index], "\n")
+}
 
 func formatCellUnit(unit *cellUnit, maxWidth int) string {
 	str := unit.content
