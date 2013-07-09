@@ -31,6 +31,11 @@ func Test_decideAlignment(t *testing.T) {
 		t.Errorf("octal string of integer alighment is 'right'")
 	}
 
+	got = decideAlignment("ff")
+	if got != ALIGN_RIGHT {
+		t.Errorf("hex string without '0x' of integer alighment is 'right'")
+	}
+
 	got = decideAlignment("0xaabbccdd")
 	if got != ALIGN_RIGHT {
 		t.Errorf("hex string of integer alighment is 'right'")
