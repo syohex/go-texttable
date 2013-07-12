@@ -29,6 +29,30 @@ func TestDraw(t *testing.T) {
 	}
 }
 
+func TestSetHeader(t *testing.T) {
+	tbl := &TextTable{}
+
+	err := tbl.SetHeader()
+	if err == nil {
+		t.Errorf("SetHeader should take one argument at least")
+	}
+}
+
+func TestAddRow(t *testing.T) {
+	tbl := &TextTable{}
+	tbl.SetHeader("name", "age")
+
+	err := tbl.AddRow("bob", "30", "182")
+	if err == nil {
+		t.Errorf("row length should be smaller than equal header length")
+	}
+
+	err = tbl.AddRow()
+	if err == nil {
+		t.Errorf("AddRow should take one argument at least")
+	}
+}
+
 //
 // Private Function/Methods
 //
