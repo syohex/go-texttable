@@ -12,11 +12,11 @@ func main () {
 	tbl := &texttable.TextTable{}
 	tbl.SetHeader([]string{"Country", "Capital"})
 
-	tbl.AddRow([]string{"United States of America", "Washington D.C"})
-	tbl.AddRow([]string{"France", "Paris"})
-	tbl.AddRow([]string{"United Kingdom", "London"})
-	tbl.AddRow([]string{"Japan", "Tokyo"})
-	tbl.AddRow([]string{"Taiwan", "Taipei"})
+	tbl.AddRow("United States of America", "Washington D.C")
+	tbl.AddRow("France", "Paris")
+	tbl.AddRow("United Kingdom", "London")
+	tbl.AddRow("Japan", "Tokyo")
+	tbl.AddRow("Taiwan", "Taipei")
 
 	fmt.Println(tbl.Draw())
 }
@@ -38,13 +38,13 @@ import "fmt"
 
 func main () {
 	tbl := &texttable.TextTable{}
-	tbl.SetHeader([]string{"プログラミング言語", "よみがな", "作者"})
+	tbl.SetHeader("プログラミング言語", "よみがな", "作者")
 
-	tbl.AddRow([]string{"Python", "ぱいそん", "グイド・ヴァンロッサム"})
-	tbl.AddRow([]string{"Perl", "ぱーる", "ラリーウォール"})
-	tbl.AddRow([]string{"Ruby", "るびぃ", "まつもとゆきひろ"})
-	tbl.AddRow([]string{"Erlang", "あーらん", "ジョーアームストロング"})
-	tbl.AddRow([]string{"D言語", "でぃーげんご", "ウォルター・ブライト"})
+	tbl.AddRow("Python", "ぱいそん", "グイド・ヴァンロッサム")
+	tbl.AddRow("Perl", "ぱーる", "ラリーウォール")
+	tbl.AddRow("Ruby", "るびぃ", "まつもとゆきひろ")
+	tbl.AddRow("Erlang", "あーらん", "ジョーアームストロング")
+	tbl.AddRow("D言語", "でぃーげんご", "ウォルター・ブライト")
 
 	fmt.Println(tbl.Draw())
 }

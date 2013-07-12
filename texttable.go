@@ -52,7 +52,7 @@ func (t *TextTable) updateColumnWidth(rows []*tableRow) {
 	}
 }
 
-func (t *TextTable) SetHeader(headers []string) error {
+func (t *TextTable) SetHeader(headers ...string) error {
 	if len(headers) == 0 {
 		return errors.New("No header elements")
 	}
@@ -70,7 +70,7 @@ func (t *TextTable) SetHeader(headers []string) error {
 	return nil
 }
 
-func (t *TextTable) AddRow(strs []string) error {
+func (t *TextTable) AddRow(strs ...string) error {
 	if len(strs) > t.width {
 		return errors.New("row width should be less than header width")
 	}

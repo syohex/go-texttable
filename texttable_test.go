@@ -18,10 +18,10 @@ func TestDraw(t *testing.T) {
 		"| hoge | ほげ     |\n" +
 		"+------+----------+"
 
-	tbl.SetHeader([]string{"名前", "ふりがな"})
+	tbl.SetHeader("名前", "ふりがな")
 
-	tbl.AddRow([]string{"foo", "ふう"})
-	tbl.AddRow([]string{"hoge", "ほげ"})
+	tbl.AddRow("foo", "ふう")
+	tbl.AddRow("hoge", "ほげ")
 
 	got := tbl.Draw()
 	if got != expected {
