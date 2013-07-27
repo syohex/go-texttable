@@ -10,7 +10,7 @@ import "fmt"
 
 func main () {
 	tbl := &texttable.TextTable{}
-	tbl.SetHeader([]string{"Country", "Capital"})
+	tbl.SetHeader("Country", "Capital")
 
 	tbl.AddRow("United States of America", "Washington D.C")
 	tbl.AddRow("France", "Paris")
