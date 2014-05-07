@@ -52,6 +52,11 @@ func (t *TextTable) updateColumnWidth(rows []*tableRow) {
 	}
 }
 
+/*
+
+SetHeader adds header row from strings given
+
+*/
 func (t *TextTable) SetHeader(headers ...string) error {
 	if len(headers) == 0 {
 		return errors.New("no headers")
@@ -70,6 +75,11 @@ func (t *TextTable) SetHeader(headers ...string) error {
 	return nil
 }
 
+/*
+
+AddRow adds column from strings given
+
+*/
 func (t *TextTable) AddRow(strs ...string) error {
 	if len(strs) == 0 {
 		return errors.New("no rows")
@@ -89,6 +99,11 @@ func (t *TextTable) AddRow(strs ...string) error {
 	return nil
 }
 
+/*
+
+AddRowLine adds row border
+
+*/
 func (t *TextTable) AddRowLine() error {
 	rowLine := &tableRow{kind: ROW_LINE}
 	t.rows = append(t.rows, rowLine)
