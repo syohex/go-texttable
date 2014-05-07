@@ -196,6 +196,11 @@ func stringWidth(str string) int {
 	return runewidth.StringWidth(str)
 }
 
+/*
+
+Draw constructs text table from receiver and returns it as string
+
+*/
 func (t *TextTable) Draw() string {
 	drawedRows := make([]string, len(t.header)+len(t.rows)+3)
 	index := 0
