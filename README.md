@@ -1,4 +1,4 @@
-# go-texttable
+# go-texttable ![](https://github.com/syohex/go-texttable/workflows/CI/badge.svg)
 
 ## Sample Code
 

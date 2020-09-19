@@ -2,7 +2,7 @@ name: CI
 on: [push, pull_request]
 jobs:
   build:
-    name: Build
+    name: test
     runs-on: ubuntu-latest
     steps:
       - name: set up go
